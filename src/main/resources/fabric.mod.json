@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "subtitles",
+  "version": "${version}",
+  "name": "Subtitles+",
+  "description": "Take control of your subtitles. Move, scale, and color-code every sound with added category icons and a modern UI.",
+  "authors": [
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/project/subtitles+",
+    "issues": "https://github.com/Naw7k/subtitles-plus/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/subtitles/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.naw.subtitles.client.SubtitlesClient"
+    ]
+  },
+  "mixins": [
+    "subtitles.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

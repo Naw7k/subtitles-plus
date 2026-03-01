@@ -1,0 +1,150 @@
+[en] Table of Symbols and what they represent
+[en] "NEW!" shows new symbols added in this new pack version.
+
+[de] Symboltabelle mit jeweiliger Bedeutung
+[de] "NEW!" kennzeichnet erneuerte bzw. neue Symbole dieser Version des Packets.
+
+[es] Tabla de símbolos y lo que representan
+[es] «¡NUEVO!» muestra los nuevos símbolos añadidos en esta nueva versión del paquete.
+
+[en] Dividing symbols in different 'chapters'
+[de] Symbolaufteilung in verschiedene 'Kapitel'
+[es] Dividir los símbolos en diferentes «capítulos»
+
+E0: Peaceful Creatures         / Friedliche Kreaturen           / Criaturas pacíficas
+E1: Neutral Creatures          / Neutrale Kreaturen             / Criaturas neutrales
+E2: Hostile Creatures + Player / Feindliche Kreaturen + Spieler / Criaturas hostiles + Jugador
+E3: Battle sounds              / Konfliktgeräusche              / Sonidos de batalla
+E4: Other (Inter-)Actions      / Andere (Inter-)Aktionen        / Otras (inter)acciones
+E5: Misc                       / Sonstiges                      / Varios
+
+% E0 
+Allay | Helferlein: → \uE003
+Armadillo | Gürteltier: → \uE004
+Axolotl | Axolotol: → \uE005
+Bat | Fledermaus: → \uE006
+Camel | Dromedar: → \uE008
+Cat | Katze: → \uE009
+Chicken | Huhn: → \uE010
+Cow | Kuh: → \uE011
+Fish | Fisch: → \uE012
+Fox | Fuchs: → \uE013
+Frog | Frosch: → \uE014
+Happy Ghast | Fröhlicher Ghast: → \uE017
+Horse | Pferd: → \uE018
+Parrot | Papagei: → \uE020
+Pig | Schwein: → \uE021
+Rabbit | Hase: → \uE022
+Sheep | Schaf: → \uE023
+Sniffer | Schnüffler: → \uE025
+Snowgolem | Schneegolem: → \uE026
+Squid | Tintenfisch: → \uE027
+Strider | Schreiter: → \uE028
+Turtle | Schildkröte: → \uE029
+Villager | Dorfbewohner: → \uE030
+Wandering Trader | Wanderhändler: → \uE031
+Copper Golem | Kupfergolem: → \uE033
+Zombie horse | Zombiepferd: → \uE034    NEW
+Camel husk | Zombiedromedar: → \uE035   NEW
+
+% E1
+Bee | Biene: → \uE103
+Dolphin | Delfin: → \uE104
+Endermen: → \uE106
+Goat | Ziege: → \uE107
+Iron Golem | Eisengolem: → \uE108
+Llama | Lama: → \uE109
+Panda: → \uE110
+Polar Bear | Eisbär: → \uE111
+Pufferfish | Kugelfisch: → \uE112
+Spider | Spinne: → \uE113
+Wolf: → \uE114
+Nautilus: → \uE115                     NEW
+Zombie nautilus: → \uE116              NEW
+
+
+% E2
+Blaze | Lohe: → \uE203
+Breeze | Böe: → \uE205
+Creaking | Knarz: → \uE208
+Creeper: → \uE209
+Enderdragon | Enderdrache: → \uE212
+Endermite | Endermilbe: → \uE213
+Ghast: → \uE215
+Guardian | Wächter: → \uE216
+Hoglin | Warzenschwein: → \uE217
+Phantom: → \uE220
+Piglin: → \uE221
+Pillager | Plünderer: → \uE223
+Player | Spieler: → \uE224
+Ravager | Verwüster: → \uE225
+Shulker: → \uE226
+Silverfish | Silberfisch: → \uE227
+Skeleton | Skelett: → \uE228
+Slime | Schleim: → \uE229
+Vex | Plagegeist: → \uE231
+Warden | Wärter: → \uE233
+Witch | Hexe: → \uE234
+Wither: → \uE235
+Zombie: → \uE237
+Zombiefied Piglin: → \uE238
+Parched | Vertrockneter: → \uE239      NEW
+
+% E3
+Armour | Rüstung: → \uE303
+Arrow | Pfeil: → \uE304         
+Blocking | Blocken: → \uE305
+Bow | Bogen: → \uE306             
+Burning | Brennen: → \uE307
+Crossbow | Armbrust: → \uE308     
+Death | Tod: → \uE309             
+Drowning | Ertrinken: → \uE310    
+Explosion: → \uE311
+Freezing | Erfrieren: → \uE312    
+Hurting | Schaden: → \uE313       
+Maze | Streitkolben: → \uE314     
+Potion | Trank: → \uE315          
+Splash Potion | Wurftrank: → \uE317 
+Sword | Schwert: → \uE318         
+Totem: → \uE319                   
+Trident | Dreizack: → \uE320      
+Wind Charge | Windkugel: → \uE321 
+Spear | Speer: → \uE322                       NEW
+Wooden Spear | Holzspeer: → \uE323            NEW
+
+% E4
+Axe | Axt: → \uE403               
+Bell | Glocke: → \uE404
+Breaking | Abbauen:  → \uE405     
+Bucket | Eimer: → \uE406          
+Bundle | Bündel: → \uE407
+Drinking | Trinken: → \uE408      
+Eating | Essen: → \uE409          
+Experience | Erfahrung: → \uE410
+Fishingrod | Angel: → \uE412      
+Glow Item Frame | Leuchtrahmen: → \uE413 
+Interaction | Interaktion: → \uE415
+Item Frame | Rahmen: → \uE416     
+Leash | Leine: → \uE417
+Paddling | Paddeln: → \uE418      
+Pickaxe | Spitzhacke: → \uE419    
+Placing | Platzieren: → \uE420    
+Redstone: → \uE421
+Shears | Schere: → \uE422         
+Vault | Tresor: → \uE424          
+Drop | Tropfen: → \uE425
+Cake | Kuchen: → \uE426
+Chest | Kiste: → \uE427           NEW
+Saddle | Sattel: → \uE428         NEW
+
+% E5
+Block: → \uE503
+Lightning | Blitz: → \uE504
+Rain | Regen: → \uE505
+
+Enderdragon-Sounds: light purple \u00A7d
+Warden-Sounds: dark aqua \u00A73
+Wither-Sounds: orange (gold) \u00A76
+
+Some Symbols were taken from the minecraft wiki:
+Minecraft Wiki. “Kreatur.” Accessed December 13, 2025. https://de.minecraft.wiki/w/Kreatur.

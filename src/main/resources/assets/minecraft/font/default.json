@@ -1,0 +1,1005 @@
+{
+  "providers": [
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_allay_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE003"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_armadillo_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE004"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_axolotol_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE005"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_bat_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE006"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_brownmooshroom_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE007"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_camel_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE008"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_cat_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE009"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_chicken_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE010"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_cow_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE011"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_fish_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE012"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_fox_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE013"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_frog_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE014"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_ghastling_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE015"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_glowsquid_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE016"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_happyghast_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE017"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_horse_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE018"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_mooshroom_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE019"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_parrot_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE020"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_pig_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE021"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_rabbit_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE022"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_sheep_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE023"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_skeletonhorse_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE024"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_sniffer_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE025"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_snowgolem_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE026"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_squid_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE027"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_strider_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE028"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_turtle_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE029"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_villager_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE030"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_wanderingtrader_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE031"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_zombiehorse_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE032"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_coppergolem_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE033"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_zombiehorse_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE034"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e0_camelhusk_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE035"]
+    },
+	 
+	  
+	  
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_bee_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE103"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_dolphin_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE104"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_dog_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE105"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_endermen_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE106"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_goat_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE107"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_irongolem_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE108"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_llama_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE109"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_panda_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE110"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_polarbear_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE111"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_pufferfish_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE112"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_spider_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE113"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_wolf_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE114"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_nautilus_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE115"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e1_zombienautilus_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE116"]
+    },
+	  
+	
+	  
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_blaze_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE203"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_bogged_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE204"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_breeze_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE205"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_cavespider_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE206"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_chargedcreeper_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE207"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_creaking_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE208"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_creeper_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE209"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_drowned_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE210"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_elderguardian_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE211"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_enderdragon_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE212"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_endermite_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE213"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_evoker_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE214"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_ghast_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE215"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_guardian_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE216"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_hoglin_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE217"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_husk_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE218"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_magmacube_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE219"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_phantom_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE220"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_piglin_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE221"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_piglinbrute_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE222"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_pillager_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE223"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_player_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE224"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_ravager_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE225"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_shulker_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE226"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_silverfish_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE227"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_skeleton_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE228"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_slime_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE229"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_stray_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE230"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_vex_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE231"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_vindicator_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE232"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_warden_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE233"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_witch_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE234"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_wither_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE235"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_zoglin_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE236"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_zombie_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE237"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_zombifiedpiglin_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE238"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e2_parched_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE239"]
+    },
+	  
+	  
+	  
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_armour_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE303"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_arrow_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE304"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_blocking_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE305"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_bow_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE306"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_burning_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE307"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_crossbow_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE308"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_death_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE309"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_drowning_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE310"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_explosion_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE311"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_freezing_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE312"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_hurting_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE313"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_mace_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE314"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_potion_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE315"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_shooting_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE316"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_splashpotion_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE317"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_sword_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE318"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_totem_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE319"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_trident_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE320"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_windcharge_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE321"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_spear_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE322"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e3_woodenspear_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE323"]
+    },
+	  
+	
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_axe_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE403"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_bell_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE404"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_breaking_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE405"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_bucket_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE406"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_bundle_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE407"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_drinking_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE408"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_eating_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE409"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_experience_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE410"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_feeding_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE411"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_fishingrod_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE412"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_glowitemframe_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE413"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_inksac_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE414"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_interaction_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE415"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_itemframe_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE416"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_leash_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE417"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_paddling_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE418"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_pickaxe_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE419"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_placing_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE420"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_redstone_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE421"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_shears_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE422"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_swimming_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE423"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_vault_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE424"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_droplet_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE425"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_cake_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE426"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_chest_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE427"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e4_saddle_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE428"]
+    },
+	
+	  
+	
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_block_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE503"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_lightning_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE504"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_rain_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE505"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_sand_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE506"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_wind_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE507"]
+    },
+	{
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/e5_sponge_symbol.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE508"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/portal.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE509"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/enderpearl.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE510"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/eyeofender.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE511"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zdoor.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE512"]
+    }
+  ]
+}

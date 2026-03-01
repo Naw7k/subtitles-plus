@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.naw.subtitles.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "CursorAccessor",
+    "SubtitleEntryAccessor",
+    "SoundEntryAccessor",
+    "SubtitlesMixin",
+    "SubtitleEntryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
