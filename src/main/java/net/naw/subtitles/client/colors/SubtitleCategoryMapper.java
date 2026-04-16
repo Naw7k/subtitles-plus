@@ -1,6 +1,6 @@
 package net.naw.subtitles.client.colors;
 
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.sounds.SoundSource;
 
 /**
  * SubtitleCategoryMapper: The "General Painter."
@@ -8,7 +8,7 @@ import net.minecraft.sound.SoundCategory;
  */
 public class SubtitleCategoryMapper {
 
-    public static int getCategoryColor(SoundCategory category) {
+    public static int getCategoryColor(SoundSource category) {
         // Every category has its own identity here.
         return switch (category) {
 
