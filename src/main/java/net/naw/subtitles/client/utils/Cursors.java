@@ -1,6 +1,7 @@
 package net.naw.subtitles.client.utils;
 
-import net.minecraft.client.gui.cursor.Cursor;
+import com.mojang.blaze3d.platform.cursor.CursorType;
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -11,21 +12,20 @@ import org.lwjgl.glfw.GLFW;
 public class Cursors {
 
     // The standard Minecraft pointer arrow.
-    public static final Cursor DEFAULT = Cursor.DEFAULT;
+    public static final CursorType DEFAULT = CursorTypes.ARROW;
 
     /**
-     * MOVE: This creates the 4-way arrow icon (Up, Down, Left, Right).
-     * It shows up when the user is allowed to drag the box around the screen.
+     * MOVE: The 4-way arrow icon.
+     * Shows up when the user is allowed to drag the box around the screen.
      */
-    public static final Cursor MOVE = Cursor.createStandard(
-            GLFW.GLFW_RESIZE_ALL_CURSOR, "all_resize", Cursor.DEFAULT
-    );
+    public static final CursorType MOVE = CursorTypes.RESIZE_ALL;
 
     /**
-     * RESIZE_NWSE: This creates the diagonal resize icon (North-West to South-East).
-     * It shows up when the user hovers over the bottom-right corner to scale the box.
+     * RESIZE_NWSE: The diagonal resize icon (North-West to South-East).
+     * Shows up when the user hovers over the bottom-right corner to scale the box.
+     * Created directly via GLFW since Mojang didn't expose this one in CursorTypes.
      */
-    public static final Cursor RESIZE_NWSE = Cursor.createStandard(
-            GLFW.GLFW_RESIZE_NWSE_CURSOR, "resize_nwse", Cursor.DEFAULT
+    public static final CursorType RESIZE_NWSE = CursorType.createStandardCursor(
+            GLFW.GLFW_RESIZE_NWSE_CURSOR, "resize_nwse", CursorTypes.RESIZE_ALL
     );
 }
