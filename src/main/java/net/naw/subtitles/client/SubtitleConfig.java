@@ -11,6 +11,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * SubtitleConfig: The "Brain" of the mod.
  * This file handles storing your settings and writing them to a file (subtitles_plus.json)
@@ -27,15 +30,17 @@ public class SubtitleConfig {
     private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "subtitles_plus.json");
 
     // --- POSITION & SCALE ---
+    // Controls where the subtitle box sits on screen and how big it is.
     public double relativeX = 0.5; // Horizontal position (0.0 to 1.0)
     public double relativeY = 0.5; // Vertical position (0.0 to 1.0)
     public float scale = 1.0f;      // Size of the subtitles
-    public float boxOpacity = 0.5f; // Transparency of the background
+    public float boxOpacity = 0.8f; // Transparency of the background
 
     // --- VISUAL APPEARANCE ---
+    // Controls how the subtitle box looks: flip direction, background style, shadow, etc.
     public boolean isFlipped = false;        // Grow up or down?
     public boolean showBackground = true;    // Darken screen background?
-    public int subtitleBackgroundMode = 1;   // 0: OFF, 1: MODDED, 2: VANILLA
+    public int subtitleBackgroundMode = 2;   // 0: OFF, 1: MODDED, 2: VANILLA
     public boolean showShadow = true;        // Text shadow
 
     // @SuppressWarnings("unused") tells the IDE: "Don't worry that I'm not using this yet."
@@ -47,11 +52,16 @@ public class SubtitleConfig {
     @SuppressWarnings("unused")
     public boolean enabled = true;
 
+    // --- FEATURE TOGGLES ---
+    // Controls which features are active: colors, icons, preview, guides, alignment, etc.
     public boolean useCategoryColors = true;
     public boolean renderSubtitles = true;
     public boolean showGuides = true;
     public boolean showIcons = true;
-    public boolean showPreview = true;
+    public int previewMode = 2; // 0: OFF, 1: Outline+Labels only, 2: Full preview
+    public boolean subtitleAlignment = false; // false = center, true = wall hug
+    public int subtitleLimit = 0; // 0 = no limit, 1-10 = max subtitles shown at once
+    public List<String> blacklist = new ArrayList<>();
 
     // --- SINGLETON INSTANCE ---
     // This makes sure the whole mod uses the same "Brain" (one single instance).
