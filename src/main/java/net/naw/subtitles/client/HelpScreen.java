@@ -1,19 +1,21 @@
 package net.naw.subtitles.client;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 
 /**
  * HelpScreen: A dedicated full-screen guide.
- * This is useful if the user wants a large, clear view of what every setting does.
+ * This screen is opened from the config screen via the "?" button.
+ * It gives the user a large, clear view of what every setting does.
  */
+@SuppressWarnings("unused") // Instantiated via SubtitleConfigScreen — IDE can't detect this
 public class HelpScreen extends Screen {
     private final Screen parent; // Remembers which screen opened this one (usually the Config Screen)
 
     public HelpScreen(Screen parent) {
-        super(Text.literal("Subtitles+ Help Guide"));
+        super(Component.literal("Subtitles+ Help Guide"));
         this.parent = parent;
     }
 
@@ -23,26 +25,28 @@ public class HelpScreen extends Screen {
      */
     @Override
     protected void init() {
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Back"), (btn) -> {
-            if (this.client != null) this.client.setScreen(this.parent);
-        }).dimensions(this.width / 2 - 50, this.height - 30, 100, 20).build());
+        this.addRenderableWidget(Button.builder(Component.literal("Back"), (ignored) -> {
+            // minecraft is never null here — this screen can only open while the game is running
+            this.minecraft.setScreen(this.parent);
+        }).bounds(this.width / 2 - 50, this.height - 30, 100, 20).build());
     }
 
     /**
-     * render() draws the text on the screen.
+     * extractRenderState() draws the help text on the screen.
+     * Each setting gets a yellow title and a gray description below it.
      */
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         // Note: renderBackground is omitted here to prevent potential flickering/crashes
         // as noted in your original comments.
 
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 20, 0xFFFF55);
+        context.centeredText(this.font, this.title, this.width / 2, 20, 0xFFFF55);
 
         // Positioning for the list
         int y = 50;
         int x = this.width / 2 - 120; // Moved slightly left to fit the longer text
 
-        // all 7 descriptions to match your SubtitleConfigScreen perfectly
+        // All 7 descriptions to match your SubtitleConfigScreen perfectly
         drawHelpLine(context, "Box Opacity", "Sets the transparency level of the Preview Box background.", x, y);
         drawHelpLine(context, "Flip Direction", "Determines if the subtitle list expands upwards or downwards.", x, y + 25);
         drawHelpLine(context, "Subtitle BG", "Switches between No Background, Modded style, or Vanilla look.", x, y + 50);
@@ -51,14 +55,15 @@ public class HelpScreen extends Screen {
         drawHelpLine(context, "Colors", "Assigns unique colors to sound categories (e.g. Players, Blocks).", x, y + 125);
         drawHelpLine(context, "Reset Pos", "Restores the Preview Box/Ghost Subtitle to the center of the screen.", x, y + 150);
 
-        super.render(context, mouseX, mouseY, delta);
+        super.extractRenderState(context, mouseX, mouseY, delta);
     }
 
     /**
-     * Helper method to draw a title in Yellow (§e) and the description in Gray (§7).
+     * Helper method to draw a setting name in Yellow (§e) and its description in Gray (§7).
+     * Each entry takes up 20px of vertical space (10px title + 10px description).
      */
-    private void drawHelpLine(DrawContext context, String title, String desc, int x, int y) {
-        context.drawTextWithShadow(this.textRenderer, "§e" + title + ":", x, y, -1);
-        context.drawTextWithShadow(this.textRenderer, "§7" + desc, x, y + 10, -1);
+    private void drawHelpLine(GuiGraphicsExtractor context, String title, String desc, int x, int y) {
+        context.text(this.font, "§e" + title + ":", x, y, -1);
+        context.text(this.font, "§7" + desc, x, y + 10, -1);
     }
 }
