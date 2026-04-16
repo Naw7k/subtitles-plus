@@ -1,25 +1,24 @@
 package net.naw.subtitles.client.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.SubtitlesHud;
-import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.client.sound.SoundListenerTransform;
-import net.minecraft.client.sound.WeightedSoundSet;
-import net.minecraft.text.Text;
+import com.mojang.blaze3d.audio.ListenerTransform;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.SubtitleOverlay;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 import net.naw.subtitles.client.SubtitleColorData;
 import net.naw.subtitles.client.SubtitleConfig;
-import org.joml.Matrix3x2fStack;
+import net.naw.subtitles.client.colors.SubtitleColorMapper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.naw.subtitles.client.colors.SubtitleColorMapper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,21 +29,21 @@ import java.util.List;
  * physically painting it onto your screen. It handles the math for where
  * subtitles go, how big they are, and what colors they use.
  */
-@Mixin(SubtitlesHud.class)
+@Mixin(SubtitleOverlay.class)
 public abstract class SubtitlesMixin {
 
     // These @Shadows let us "borrow" variables that already exist inside Minecraft.
-    @Shadow @Final private MinecraftClient client;
-    @Shadow @Final private List<?> entries;
+    @Shadow @Final private Minecraft minecraft;
+    @Shadow @Final private List<?> subtitles;
 
     /**
-     * onSoundPlayed: This runs every single time a sound is triggered in the world.
+     * onPlaySound: This runs every single time a sound is triggered in the world.
      * We use it to "tag" the subtitle with its category color immediately.
      */
-    @Inject(method = "onSoundPlayed", at = @At("RETURN"))
-    private void onSoundPlayed(SoundInstance sound, WeightedSoundSet soundSet, float range, CallbackInfo ci) {
-        if (this.entries.isEmpty()) return;
-        Object lastEntry = this.entries.getLast();
+    @Inject(method = "onPlaySound", at = @At("RETURN"))
+    private void onPlaySound(SoundInstance sound, WeighedSoundEvents soundEvent, float range, CallbackInfo ci) {
+        if (this.subtitles.isEmpty()) return;
+        Object lastEntry = this.subtitles.getLast();
         // Uses our 'Portal' (SubtitleColorData) to store the color in the entry's memory.
         ((SubtitleColorData) lastEntry).subtitles$setCategoryColor(sound);
     }
@@ -53,84 +52,46 @@ public abstract class SubtitlesMixin {
      * onRender: This is the heart of the visual mod.
      * It runs 60+ times per second (every frame) to draw the subtitles.
      */
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void onRender(DrawContext drawContext, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("HEAD"), cancellable = true)
+    @SuppressWarnings("all")
+    public void onRender(GuiGraphicsExtractor graphics, CallbackInfo ci) {
         // Safety check: If no subtitles exist or the player isn't in a world, stop here.
-        if (this.entries.isEmpty() || this.client.player == null) return;
+        if (this.subtitles.isEmpty() || this.minecraft.player == null) return;
 
         // ci.cancel() tells Minecraft: "Don't draw your boring subtitles, I'm drawing my own!"
         ci.cancel();
         SubtitleConfig config = SubtitleConfig.INSTANCE;
 
-        // --- PREPARING THE CANVAS ---
-        drawContext.createNewRootLayer();
-        Matrix3x2fStack matrices = drawContext.getMatrices(); // 'Matrices' handle the scaling and moving.
+        if (!config.renderSubtitles) return;
+        if (!(Boolean)this.minecraft.options.showSubtitles().get()) return;
 
         // Transform handles where the player is looking (important for the arrows!)
-        SoundListenerTransform transform = this.client.getSoundManager().getListenerTransform();
-        Vec3d listenerPos = transform.position();
-        Vec3d listenerForward = transform.forward();
-        Vec3d listenerRight = transform.right();
+        ListenerTransform transform = this.minecraft.getSoundManager().getListenerTransform();
+        Vec3 listenerPos = transform.position();
+        Vec3 listenerForward = transform.forward();
+        Vec3 listenerRight = transform.right();
 
-        matrices.pushMatrix();
+        // --- SCREEN DIMENSIONS ---
+        int screenW = this.minecraft.getWindow().getGuiScaledWidth();
+        int screenH = this.minecraft.getWindow().getGuiScaledHeight();
 
-        // --- MATH: WHERE ON THE SCREEN? ---
-        int screenW = this.client.getWindow().getScaledWidth();
-        int screenH = this.client.getWindow().getScaledHeight();
+        double displayTime = this.minecraft.options.notificationDisplayTime().get();
 
-        // We multiply the screen size by your 0.0-1.0 config values to find the exact pixel.
-        float finalX = (float)(screenW * config.relativeX);
-        float boxHeightScaled = 20 * config.scale;
-        float safeZoneHeight = screenH - boxHeightScaled - 4; // Keeps them from going off the bottom.
-        float finalY = (float)(3 + (config.relativeY * safeZoneHeight));
+        // --- COLLECT ACTIVE SUBTITLES AND FIND MAX WIDTH ---
+        // Pre-loop runs before the main drawing loop so we know the widest subtitle ahead of time.
+        // This lets us set a consistent background width and position anchor before drawing anything.
+        int activeCount = 0;
+        int maxWidth = 0;
 
-        matrices.translate(finalX, finalY); // Move the "Pen" to the right spot.
-        matrices.scale(config.scale, config.scale); // Make everything bigger or smaller.
-
-        // --- VANILLA BACKGROUND CALCULATION (MODE 2) ---
-        // This 'pre-loop' finds the widest subtitle so the big grey box fits them all perfectly.
-        int maxTextWidth = 0;
-        int activeSubtitlesCount = 0;
-        for (Object entryObj : this.entries) {
-            SubtitleEntryAccessor entry = (SubtitleEntryAccessor) entryObj;
-            if (entry.invokeCanHearFrom(listenerPos)) {
-                int textWidth = this.client.textRenderer.getWidth(entry.getText());
-                if (textWidth > maxTextWidth) maxTextWidth = textWidth;
-                activeSubtitlesCount++;
-            }
-        }
-        int totalVanillaWidth = maxTextWidth + 3;
-
-        // This draws the classic giant Minecraft box if 'Vanilla' is selected in your menu.
-        if (config.subtitleBackgroundMode == 2 && activeSubtitlesCount > 0 && config.renderSubtitles) {
-            int halfVW = totalVanillaWidth / 2;
-            int bgX1, bgX2;
-            // Logic to make sure the box stays attached to the left, right, or center.
-            if (config.relativeX < 0.33) { bgX1 = -2; bgX2 = totalVanillaWidth + 2; }
-            else if (config.relativeX > 0.66) { bgX1 = -totalVanillaWidth - 2; bgX2 = 2; }
-            else { bgX1 = -halfVW - 2; bgX2 = halfVW + 2; }
-
-            int totalHeight = activeSubtitlesCount * 10;
-            if (config.isFlipped) {
-                drawContext.fill(bgX1, -3, bgX2, totalHeight, 0x90000000); // 0x90 is the transparency level.
-            } else {
-                int bottomY = 21;
-                int topY = bottomY - totalHeight - 1;
-                drawContext.fill(bgX1, topY, bgX2, bottomY, 0x90000000);
-            }
-        }
-
-        // --- THE MAIN SUBTITLE LOOP ---
-        // Now we go through every active sound and draw its text.
-        int subtitleIndex = 0;
-        double displayTime = this.client.options.getNotificationDisplayTime().getValue();
-        Iterator<?> iterator = this.entries.iterator();
-
+        Iterator<?> iterator = this.subtitles.iterator();
         while (iterator.hasNext()) {
             SubtitleEntryAccessor entry = (SubtitleEntryAccessor) iterator.next();
-            entry.invokeRemoveExpired(3000.0 * displayTime); // Delete if too old.
-
+            entry.invokeRemoveExpired(3000.0 * displayTime);
             if (!entry.invokeCanHearFrom(listenerPos)) continue;
+
+            // Skip blacklisted subtitles
+            String subtitleText = entry.getText().getString();
+            if (config.blacklist.stream().anyMatch(subtitleText::contains)) continue;
 
             List<?> sounds = entry.getSounds();
             if (sounds == null || sounds.isEmpty()) {
@@ -138,47 +99,82 @@ public abstract class SubtitlesMixin {
                 continue;
             }
 
-            // Get the timing (used for animations and fading out).
-            SoundEntryAccessor newestSound = (SoundEntryAccessor) sounds.getLast();
-            SoundEntryAccessor oldestSound = (SoundEntryAccessor) sounds.getFirst();
-            long gameTimeNow = Util.getMeasuringTimeMs();
-            long hitAge = gameTimeNow - newestSound.getTime();
-            long slideAge = gameTimeNow - oldestSound.getTime();
+            maxWidth = Math.max(maxWidth, this.minecraft.font.width(entry.getText()));
+            activeCount++;
+        }
 
-            // Check if it's a specific type of sound for special animations.
-            boolean isBlockSound = entry.getText().getString().contains("Block");
+        // Add arrow padding — more space when icons are on since icons take extra width
+        maxWidth += config.showIcons ? 20 : 5;
 
+        if (activeCount == 0) return;
 
-            // birthWeight = The "sliding in" animation. pulseWeight = The "jiggle" when a block breaks.
-            float birthWeight = isBlockSound ? 1.0F : MathHelper.clamp(slideAge / 300.0F, 0.0F, 1.0F);
-            float pulseWeight = isBlockSound ? MathHelper.clamp(0.82F + (hitAge / 150.0F), 0.82F, 1.0F) : 1.0F;
+        // --- POSITION CALCULATION ---
+        // finalX: centers the subtitle block horizontally based on relativeX (0.0 to 1.0)
+        // finalY: positions vertically based on relativeY, clamped so text never goes off screen
+        // fixedWidth: fixed anchor width so subtitles don't shift when new ones appear (mode 0 and 1)
+        // positionWidth: vanilla (mode 2) uses dynamic maxWidth
+        int fixedWidth = 100 + (config.showIcons ? 20 : 5);
+        int positionWidth = config.subtitleBackgroundMode == 2 ? maxWidth : fixedWidth;
+        float scaledHalfWidth = (positionWidth * config.scale) / 2.0f;
+        float finalX = (float)(config.relativeX * (screenW - positionWidth * config.scale)) + scaledHalfWidth;
+        // Top clamp (5 * scale): minimum distance from top edge — calibrated for all scales
+        // Bottom clamp: modded (mode 1) uses larger value to account for 2 entries height, vanilla/none use 5
+        // Flip offset (5 * scale): shifts the visual block up or down so both flip directions appear symmetric
+        float finalY = Mth.clamp((float)(config.relativeY * screenH), 2 * config.scale, config.subtitleBackgroundMode == 1 ? screenH - 14 * config.scale : screenH - 5 * config.scale
+        ) + (config.isFlipped ? -5 * config.scale : 5 * config.scale);
 
-            // Transparency (Alpha) calculation so subtitles fade away slowly.
-            float f = (float)(gameTimeNow - newestSound.getTime()) / (float)(3000.0 * displayTime);
-            int alpha = (int)((1.0F - f) * 180.0F + 75.0F);
-            alpha = (int)(alpha * birthWeight * pulseWeight);
+        // --- THE MAIN SUBTITLE LOOP ---
+        // Now we go through every active sound and draw its text.
+        int currentRow = 0;
+        for (Object entryObj : this.subtitles) {
+            if (config.subtitleLimit > 0 && currentRow >= config.subtitleLimit) break;
+            SubtitleEntryAccessor entry = (SubtitleEntryAccessor) entryObj;
+            if (!entry.invokeCanHearFrom(listenerPos)) continue;
 
-            // If the user turned off subtitles in the menu, we just make them invisible.
-            if (!config.renderSubtitles) alpha = 0;
+            String subtitleText = entry.getText().getString();
+            if (config.blacklist.stream().anyMatch(subtitleText::contains)) continue;
+
+            List<?> sounds = entry.getSounds();
+            if (sounds == null || sounds.isEmpty()) continue;
 
             // Finding the closest sound source to point the arrows correctly.
-            Vec3d nearestLocation = null;
-            double minDistanceSq = Double.MAX_VALUE;
+            SoundEntryAccessor closestSound = null;
+            double minDist = Double.MAX_VALUE;
             for (Object soundObj : sounds) {
                 SoundEntryAccessor sound = (SoundEntryAccessor) soundObj;
-                Vec3d loc = sound.getLocation();
-                double distSq = loc.squaredDistanceTo(listenerPos);
-                if (distSq < minDistanceSq) {
-                    minDistanceSq = distSq;
-                    nearestLocation = loc;
+                double dist = sound.getLocation().distanceToSqr(listenerPos);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestSound = sound;
                 }
             }
 
+            if (closestSound == null) continue;
+
+            long gameTimeNow = Util.getMillis();
+
+            // --- SLIDE-IN ANIMATION ---
+            // birthWeight = The "sliding in" animation. pulseWeight = The "jiggle" when a block breaks.
+            SoundEntryAccessor oldestSound = (SoundEntryAccessor) sounds.getFirst();
+            SoundEntryAccessor newestSound = (SoundEntryAccessor) sounds.getLast();
+            long hitAge = gameTimeNow - newestSound.getTime();
+            long slideAge = gameTimeNow - oldestSound.getTime();
+            boolean isBlockSound = entry.getText().getString().contains("Block");
+            float birthWeight = isBlockSound ? 1.0F : Mth.clamp(slideAge / 300.0F, 0.0F, 1.0F);
+            float pulseWeight = isBlockSound ? Mth.clamp(0.82F + (hitAge / 150.0F), 0.82F, 1.0F) : 1.0F;
+
+            // Transparency (Alpha) calculation — fades from 255 to 75 over display time
+            int brightness = (int) Mth.clampedLerp(
+                    (float)(gameTimeNow - closestSound.getTime()) / (float)(3000.0 * displayTime),
+                    255.0F, 75.0F
+            );
+            brightness = (int)(brightness * birthWeight * pulseWeight);
+
             // --- 1. COLOR LOGIC ---
-            SubtitleColorData data = (SubtitleColorData) entry;
             int baseColor = 0xFFFFFF; // Default is White.
 
             // Get the Category Color (Hostile = Red, etc.) from our Mixin memory.
+            SubtitleColorData data = (SubtitleColorData) entry;
             if (config.useCategoryColors) {
                 baseColor = data.subtitles$getSavedColor();
             }
@@ -186,7 +182,7 @@ public abstract class SubtitlesMixin {
             // --- 2. WORD-BASED OVERRIDE ---
             // Reach through the portal to 'SubtitleColorMapper' to see if a specific word (like Lava)
             // should change the color.
-            Text rawText = entry.getText();
+            Component rawText = entry.getText();
             String rawString = rawText.getString();
 
             if (config.useCategoryColors) {
@@ -206,20 +202,8 @@ public abstract class SubtitlesMixin {
                 rawString = rawString.replaceAll("([\\uE000-\\uF8FF\\u2000-\\u33FF])", "§r§f$1§r");
             }
 
-            Text text = Text.literal(rawString);
-
-            // --- 4. DIRECTIONAL ARROWS ---
-            // Compares player rotation to sound position to put a < or > on the text.
-            if (nearestLocation != null) {
-                Vec3d soundVec = nearestLocation.subtract(listenerPos).normalize();
-                double forward = listenerForward.dotProduct(soundVec);
-                double side = listenerRight.dotProduct(soundVec);
-
-                if (forward <= 0.5) {
-                    if (side > 0.0) text = text.copy().append(" >");
-                    else if (side < 0.0) text = Text.literal("< ").append(text);
-                }
-            }
+            // --- 4. BUILD FINAL TEXT COMPONENT ---
+            Component text = Component.literal(rawString);
 
             // --- 5. ULTIMATE ICON NUKE ---
             // If icons are disabled, this wipes every single possible icon character from the text.
@@ -228,45 +212,99 @@ public abstract class SubtitlesMixin {
                 finalRaw = finalRaw.replaceAll("§f[\\uE000-\\uF8FF]§6", "");
                 finalRaw = finalRaw.replaceAll("[\\uE000-\\uF8FF\\u2100-\\u33FF\\uD83C-\\uDBFF\\uDC00-\\uDFFF]", "");
                 finalRaw = finalRaw.trim().replaceAll(" +", " ");
-                text = Text.literal(finalRaw);
+                text = Component.literal(finalRaw);
             }
 
             // --- 6. FINAL COLOR COMBINATION ---
-            // Combines the transparency (Alpha) with the RGB color into one single code.
-            int color = (alpha << 24) | (baseColor & 0x00FFFFFF);
-
-            // --- FINAL DRAWING ---
-            int width = this.client.textRenderer.getWidth(text);
-            int drawX;
-            // Alignment logic: Should the text grow from the left, right, or center?
-            if (config.relativeX < 0.33) drawX = 0;
-            else if (config.relativeX > 0.66) drawX = -width;
-            else drawX = -width / 2;
-
-            int drawY;
-            // Spacing logic: Vanilla mode is tighter (10px) than Modded mode (12px).
-            int spacing = (config.subtitleBackgroundMode == 2) ? 10 : 12;
-            drawY = config.isFlipped ? (subtitleIndex * spacing) : (12 - (subtitleIndex * spacing));
-
-            // Adds that smooth "pop-up" sliding effect.
-            float slideOffset = (1.0F - birthWeight) * 5.0F;
-            drawY += (int) (config.isFlipped ? slideOffset : -slideOffset);
-
-            // Draw the custom 'Modded' background (Mode 1).
-            if (config.subtitleBackgroundMode == 1) {
-                int bgColor = (int)(alpha * 0.6F) << 24;
-                drawContext.fill(drawX - 2, drawY - 2, drawX + width + 2, drawY + 9, bgColor);
-            }
-
-            // Physically draw the text on the screen!
-            if (config.showShadow) {
-                drawContext.drawTextWithShadow(this.client.textRenderer, text, drawX, drawY, color);
+            // Use category color if enabled, otherwise use vanilla brightness
+            int finalTextColor;
+            if (config.useCategoryColors) {
+                finalTextColor = (brightness << 24) | (baseColor & 0x00FFFFFF);
             } else {
-                drawContext.drawText(this.client.textRenderer, text, drawX, drawY, color, false);
+                // Vanilla-style: all channels equal brightness for a white-to-gray fade
+                finalTextColor = 0xFF000000 | (brightness << 16) | (brightness << 8) | brightness;
             }
 
-            subtitleIndex++;
+            int halfWidth = maxWidth / 2;
+            int halfHeight = 4;
+
+            // Slide offset for smooth pop-up animation
+            float slideOffset = (1.0F - birthWeight) * 5.0F;
+
+            // Each subtitle gets its own matrix — exactly like vanilla
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(
+                    finalX,
+                    config.isFlipped ?
+                            finalY + (currentRow * (config.subtitleBackgroundMode == 1 ? 12 : 10)) * config.scale + slideOffset * config.scale :
+                            finalY - (currentRow * (config.subtitleBackgroundMode == 1 ? 12 : 10)) * config.scale - slideOffset * config.scale
+            );
+            graphics.pose().scale(config.scale, config.scale);
+
+            // --- DIRECTIONAL ARROWS ---
+            // For mode 0 and 1: arrows appended directly to text (tight, natural spacing)
+            // For mode 2 (vanilla): arrows drawn separately at fixed halfWidth positions
+            Vec3 soundVec = closestSound.getLocation().subtract(listenerPos).normalize();
+            double forward = listenerForward.dot(soundVec);
+            double side = listenerRight.dot(soundVec);
+            boolean inView = forward > 0.5;
+
+            if (config.subtitleBackgroundMode != 2) {
+                // Mode 0 and 1: append arrows directly to text string
+                if (forward <= 0.5) {
+                    if (side > 0.0) text = text.copy().append(" >");
+                    else if (side < 0.0) text = Component.literal("< ").append(text);
+                }
+            }
+
+            // Recalculate width after arrows may have been added
+            int finalTextWidth = this.minecraft.font.width(text);
+
+            // halfWidth for modded/none uses fixedWidth so short texts still hug the wall correctly
+            int effectiveHalfWidth = config.subtitleBackgroundMode == 2 ? halfWidth : fixedWidth / 2;
+
+            // Physically draw the text on the screen
+            int textDrawY = config.subtitleBackgroundMode == 1 ? -halfHeight + 4 : -halfHeight;
+
+            int drawX;
+            if (config.subtitleAlignment) {
+                // Auto align mode
+                if (config.relativeX < 0.33) drawX = config.subtitleBackgroundMode == 2 ? -effectiveHalfWidth + 10 : -effectiveHalfWidth + 2;
+                else if (config.relativeX > 0.66) drawX = config.subtitleBackgroundMode == 2 ? effectiveHalfWidth - finalTextWidth - 10 : effectiveHalfWidth - finalTextWidth - 2;
+                else drawX = -finalTextWidth / 2;
+            } else {
+                // Center mode: always centered
+                drawX = -finalTextWidth / 2;
+            }
+
+            // --- MODDED BACKGROUND (MODE 1) — tight per-line background based on actual text width ---
+            if (config.subtitleBackgroundMode == 1) {
+                int bgColor = (int)(brightness * Mth.clamp(config.boxOpacity, 0.3f, 1.0f)) << 24;
+                graphics.fill(drawX - 2, -2, drawX + finalTextWidth + 2, 9, bgColor);
+            }
+
+            // --- VANILLA BACKGROUND (MODE 2) ---
+            if (config.subtitleBackgroundMode == 2) {
+                graphics.fill(-halfWidth - 1, -halfHeight - 1, halfWidth + 1, halfHeight + 1,
+                        this.minecraft.options.getBackgroundColor(Mth.clamp(config.boxOpacity, 0.3f, 1.0f)));
+
+
+                // Vanilla: arrows drawn separately at fixed positions
+                if (!inView) {
+                    if (side > 0.0) {
+                        int arrowX = config.subtitleAlignment ? drawX + finalTextWidth + 3 : halfWidth - this.minecraft.font.width(">");
+                        graphics.text(this.minecraft.font, ">", arrowX, -halfHeight, finalTextColor, config.showShadow);
+                    } else if (side < 0.0) {
+                        int arrowX = config.subtitleAlignment ? drawX - this.minecraft.font.width("<") - 3 : -halfWidth;
+                        graphics.text(this.minecraft.font, "<", arrowX, -halfHeight, finalTextColor, config.showShadow);
+                    }
+                }
+            }
+
+            graphics.text(this.minecraft.font, text, drawX, textDrawY, finalTextColor, config.showShadow);
+
+            graphics.pose().popMatrix();
+            currentRow++;
         }
-        matrices.popMatrix();
     }
 }
