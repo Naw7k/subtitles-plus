@@ -84,17 +84,6 @@ public class SubtitleColorMapper {
         } */
 
 
-
-
-
-
-
-
-
-
-
-
-
         return categoryColor; // If no words match, use the default Minecraft color
     }
 }
