@@ -2,16 +2,16 @@ package net.naw.subtitles.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 public class SubtitlesClient implements ClientModInitializer {
 
-    public static KeyBinding configKey;
-    public static KeyBinding toggleKey;
+    public static KeyMapping configKey;
+    public static KeyMapping toggleKey;
 
     @Override
     public void onInitializeClient() {
@@ -19,37 +19,42 @@ public class SubtitlesClient implements ClientModInitializer {
         SubtitleConfig.load();
 
         // --- KEYBINDING REGISTRATION ---
-        configKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        configKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.subtitles.open_menu",
-                InputUtil.Type.KEYSYM,
+                InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_F4,
-                KeyBinding.Category.MISC
+                KeyMapping.Category.MISC
         ));
 
-        toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        toggleKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.subtitles.toggle",
-                InputUtil.Type.KEYSYM,
+                InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_H,
-                KeyBinding.Category.MISC
+                KeyMapping.Category.MISC
         ));
 
         // --- TICK EVENTS ---
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             // Open the configuration menu
-            while (configKey.wasPressed()) {
+            while (configKey.consumeClick()) {
                 client.setScreen(new SubtitleConfigScreen());
             }
 
             // Toggle subtitle visibility
-            while (toggleKey.wasPressed()) {
+            while (toggleKey.consumeClick()) {
+                if (!(Boolean)client.options.showSubtitles().get()) {
+                    if (client.player != null)
+                        client.player.sendSystemMessage(Component.literal("§eEnable Closed Captions in Music & Sounds first!"));
+                    continue;
+                }
                 SubtitleConfig.INSTANCE.renderSubtitles = !SubtitleConfig.INSTANCE.renderSubtitles;
                 SubtitleConfig.INSTANCE.save();
 
                 // Feedback message for the player
                 if (client.player != null) {
-                    Text status = SubtitleConfig.INSTANCE.renderSubtitles ?
-                            Text.literal("§aSubtitles Shown") : Text.literal("§cSubtitles Hidden");
-                    client.player.sendMessage(status, true);
+                    Component status = SubtitleConfig.INSTANCE.renderSubtitles ?
+                            Component.literal("§aSubtitles Shown") : Component.literal("§cSubtitles Hidden");
+                    client.player.sendSystemMessage(status);
                 }
             }
         });
