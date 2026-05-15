@@ -16,6 +16,7 @@ public class SubtitleConfigScreen extends SubtitleConfigScreenBase {
     @SuppressWarnings("FieldMayBeFinal")
     private long[] limitLastChanged = {0};
 
+    private int helpScrollOffset = 0;
 
     public SubtitleConfigScreen() {
         super(Component.literal("Subtitles+ Config"));
@@ -137,11 +138,17 @@ public class SubtitleConfigScreen extends SubtitleConfigScreenBase {
                 config.subtitleLimit = 0;
                 config.save();
                 this.rebuildWidgets();
-            }).bounds(35, 160, 155, 20).build());
+            }).bounds(31, 160, 58, 20).build());
 
             this.addRenderableWidget(Button.builder(Component.literal("+"), (ignored) -> {
                 if (config.subtitleLimit < 10) { config.subtitleLimit++; config.save(); this.rebuildWidgets(); limitLastChanged[0] = System.currentTimeMillis(); }
-            }).bounds(195, 160, 20, 20).build());
+            }).bounds(90, 160, 20, 20).build());
+
+            // Vanilla BG Debug — only shows when vanilla bg is active
+            Button bgTuneBtn = Button.builder(Component.literal("BG Tuner"), (ignored) -> this.minecraft.setScreen(new VanillaBgDebugScreen(this)))
+                    .bounds(115, 160, 100, 20).build();
+            bgTuneBtn.active = config.subtitleBackgroundMode == 2;
+            this.addRenderableWidget(bgTuneBtn);
         }
     }
 
@@ -455,9 +462,10 @@ public class SubtitleConfigScreen extends SubtitleConfigScreenBase {
      * renderHelpOverlay(): Draws the in-screen help guide popup.
      * Appears when the user clicks the "?" button.
      * Drawn at 90% scale to fit more text without it looking cramped.
+     * Scrollable — use mouse wheel while hovering over the help box.
      */
     private void renderHelpOverlay(GuiGraphicsExtractor context) {
-        int boxW = 220, boxH = 260, bX = this.width - boxW - 5, bY = 22;
+        int boxW = 220, boxH = 145, bX = this.width - boxW - 5, bY = 22;
         context.fill(bX, bY, bX + boxW, bY + boxH, 0xFF000000);
         // Draw a subtle gray border around the help box
         int brd = 0xFF555555;
@@ -465,14 +473,6 @@ public class SubtitleConfigScreen extends SubtitleConfigScreenBase {
         context.fill(bX, bY + boxH - 1, bX + boxW, bY + boxH, brd);
         context.fill(bX, bY, bX + 1, bY + boxH, brd);
         context.fill(bX + boxW - 1, bY, bX + boxW, bY + boxH, brd);
-
-        context.pose().pushMatrix();
-        float hScale = 0.9f;
-        context.pose().scale(hScale, hScale);
-        float sX = (bX + 8) / hScale, sY = (bY + 8) / hScale;
-        int wrapW = (int)((boxW - 16) / hScale);
-
-        context.text(this.font, Component.literal("§6§lHelp Guide"), (int)sX, (int)sY, -1, true);
 
         // Each entry is a [title, description] pair — title in yellow, description in gray
         String[][] helpEntries = {
@@ -486,20 +486,74 @@ public class SubtitleConfigScreen extends SubtitleConfigScreenBase {
                 {"Preview", "Cycles between OFF, Outline only, and Full preview modes."},
                 {"Align", "CENTER keeps subtitles fixed in place. AUTO shifts them toward the nearest screen edge."},
                 {"Limit", "Sets the max number of subtitles shown at once. Click the label to reset to OFF."},
-                {"Blacklist", "Blocks specific subtitles from appearing."}
+                {"Blacklist", "Blocks specific subtitles from appearing."},
+                {"BG Tuner", "Fine-tune the vanilla background alignment with sliders. Only active when Sub BG is set to VANILLA."},
         };
 
-        float currentY = sY + 16;
+        // Pre-calculate all lines to know total height for scrollbar
+        float hScale = 0.9f;
+        int wrapW = (int)((boxW - 24) / hScale);
+        java.util.List<net.minecraft.util.FormattedCharSequence> allLines = new java.util.ArrayList<>();
+        allLines.add(this.font.split(Component.literal("§6§lHelp Guide"), wrapW).get(0));
+        allLines.add(null); // spacer
         for (String[] entry : helpEntries) {
             String fullLine = "§e" + entry[0] + ": §7" + entry[1];
             var lines = this.font.split(Component.literal(fullLine), wrapW);
-            for (net.minecraft.util.FormattedCharSequence line : lines) {
-                context.text(this.font, line, (int)sX, (int)currentY, -1, true);
-                currentY += 10;
-            }
-            currentY += 3;
+            allLines.addAll(lines);
+            allLines.add(null); // spacer between entries
         }
 
+        int lineH = 10;
+        int spacerH = 3;
+        int visibleH = boxH - 16; // usable height inside box
+        int totalH = 0;
+        for (var line : allLines) totalH += (line == null ? spacerH : lineH);
+        int maxScroll = Math.max(0, totalH - visibleH - 40);
+        helpScrollOffset = Mth.clamp(helpScrollOffset, 0, maxScroll);
+
+        // Clip and draw lines
+        context.pose().pushMatrix();
+        context.pose().scale(hScale, hScale);
+        float sX = (bX + 8) / hScale;
+        float sY = (bY + 8) / hScale;
+        float currentY = sY - helpScrollOffset / hScale;
+
+        for (var line : allLines) {
+            float lineBottom = currentY + (line == null ? spacerH : lineH);
+            float clipTop = (bY + 8) / hScale;
+            float clipBottom = (bY + boxH - 4) / hScale;
+            if (lineBottom > clipTop && currentY < clipBottom) {
+                if (line != null) {
+                    context.text(this.font, line, (int)sX, (int)currentY, -1, true);
+                }
+            }
+            currentY += (line == null ? spacerH : lineH);
+        }
         context.pose().popMatrix();
+
+        // Scrollbar
+        if (maxScroll > 0) {
+            int sbX = bX + boxW - 4;
+            int sbTop = bY + 4;
+            int sbBottom = bY + boxH - 4;
+            int sbH = sbBottom - sbTop;
+            int thumbH = Math.max(10, sbH * visibleH / totalH);
+            int thumbY = sbTop + (sbH - thumbH) * helpScrollOffset / maxScroll;
+            context.fill(sbX, sbTop, sbX + 2, sbBottom, 0x55FFFFFF);
+            context.fill(sbX, thumbY, sbX + 2, thumbY + thumbH, 0xFFFFFFFF);
+        }
+    }
+
+    @Override
+    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        // Scroll help overlay if open and hovering over it
+        if (showHelpPopup) {
+            int boxW = 220, boxH = 145, bX = this.width - boxW - 5, bY = 22;
+            if (x >= bX && x <= bX + boxW && y >= bY && y <= bY + boxH) {
+                helpScrollOffset = Mth.clamp((int)(helpScrollOffset - scrollY * 30), 0, 500);
+                return true;
+            }
+        }
+        return super.mouseScrolled(x, y, scrollX, scrollY);
     }
 }
