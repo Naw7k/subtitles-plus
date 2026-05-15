@@ -63,6 +63,21 @@ public class SubtitleConfig {
     public int subtitleLimit = 0; // 0 = no limit, 1-10 = max subtitles shown at once
     public List<String> blacklist = new ArrayList<>();
 
+
+    // --- VANILLA BG TUNING ---
+    // Debug values — tweak these to fix vanilla bg alignment
+    // arrowPadding: replaces the hardcoded 5 added to maxWidth when icons are off
+    // autoAlignInset: replaces the 10 in drawX calculation for auto align mode
+    // centerOffsetX: manual horizontal nudge for center alignment in vanilla bg
+    public float debugArrowPadding = 5f;
+    public float debugAutoAlignInset = 10f;
+    public float debugCenterOffsetX = 0f;
+    public float debugArrowGap = 1f;
+    public float debugBgWidthPadding = 1f;
+    public float debugBgHeightPadding = 1f;
+    public float debugArrowOffsetY = 0f;
+
+
     // --- SINGLETON INSTANCE ---
     // This makes sure the whole mod uses the same "Brain" (one single instance).
     public static SubtitleConfig INSTANCE = load();
