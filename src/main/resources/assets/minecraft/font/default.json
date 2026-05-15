@@ -1000,6 +1000,48 @@
       "ascent": 7.5,
       "height": 8,
       "chars": ["\uE512"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zchick.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE513"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zpuppy.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE514"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zbaby-pig.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE515"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zkitten.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE516"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zbaby-horse.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE517"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom_symbols/zgolden_dandelion.png",
+      "ascent": 7.5,
+      "height": 8,
+      "chars": ["\uE518"]
     }
   ]
 }
