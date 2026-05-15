@@ -12,6 +12,7 @@ import net.minecraft.util.Util;
 import net.minecraft.world.phys.Vec3;
 import net.naw.subtitles.client.SubtitleColorData;
 import net.naw.subtitles.client.SubtitleConfig;
+import net.naw.subtitles.client.VanillaBgDebugScreen;
 import net.naw.subtitles.client.colors.SubtitleColorMapper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -104,7 +105,7 @@ public abstract class SubtitlesMixin {
         }
 
         // Add arrow padding — more space when icons are on since icons take extra width
-        maxWidth += config.showIcons ? 20 : 5;
+        maxWidth += config.showIcons ? (int)config.debugArrowPadding + 15 : (int)config.debugArrowPadding;
 
         if (activeCount == 0) return;
 
@@ -269,12 +270,12 @@ public abstract class SubtitlesMixin {
             int drawX;
             if (config.subtitleAlignment) {
                 // Auto align mode
-                if (config.relativeX < 0.33) drawX = config.subtitleBackgroundMode == 2 ? -effectiveHalfWidth + 10 : -effectiveHalfWidth + 2;
-                else if (config.relativeX > 0.66) drawX = config.subtitleBackgroundMode == 2 ? effectiveHalfWidth - finalTextWidth - 10 : effectiveHalfWidth - finalTextWidth - 2;
-                else drawX = -finalTextWidth / 2;
+                if (config.relativeX < 0.33) drawX = config.subtitleBackgroundMode == 2 ? -effectiveHalfWidth + (int)config.debugAutoAlignInset : -effectiveHalfWidth + 2;
+                else if (config.relativeX > 0.66) drawX = config.subtitleBackgroundMode == 2 ? effectiveHalfWidth - finalTextWidth - (int)config.debugAutoAlignInset : effectiveHalfWidth - finalTextWidth - 2;
+                else drawX = -finalTextWidth / 2 + (int)config.debugCenterOffsetX;
             } else {
                 // Center mode: always centered
-                drawX = -finalTextWidth / 2;
+                drawX = -finalTextWidth / 2 + (int)config.debugCenterOffsetX;
             }
 
             // --- MODDED BACKGROUND (MODE 1) — tight per-line background based on actual text width ---
@@ -285,18 +286,24 @@ public abstract class SubtitlesMixin {
 
             // --- VANILLA BACKGROUND (MODE 2) ---
             if (config.subtitleBackgroundMode == 2) {
-                graphics.fill(-halfWidth - 1, -halfHeight - 1, halfWidth + 1, halfHeight + 1,
+                int bgWPad = (int)config.debugBgWidthPadding;
+                int bgHPad = (int)config.debugBgHeightPadding;
+                graphics.fill(-halfWidth - bgWPad, -halfHeight - bgHPad, halfWidth + bgWPad, halfHeight + bgHPad,
+
                         this.minecraft.options.getBackgroundColor(Mth.clamp(config.boxOpacity, 0.3f, 1.0f)));
 
 
                 // Vanilla: arrows drawn separately at fixed positions
                 if (!inView) {
+
+                    int arrowGap = (int)config.debugArrowGap;
+                    int arrowY = -halfHeight + (int)config.debugArrowOffsetY;
                     if (side > 0.0) {
-                        int arrowX = config.subtitleAlignment ? drawX + finalTextWidth + 3 : halfWidth - this.minecraft.font.width(">");
-                        graphics.text(this.minecraft.font, ">", arrowX, -halfHeight, finalTextColor, config.showShadow);
+                        int arrowX = config.subtitleAlignment ? drawX + finalTextWidth + arrowGap : halfWidth - this.minecraft.font.width(">");
+                        graphics.text(this.minecraft.font, ">", arrowX, arrowY, finalTextColor, config.showShadow);
                     } else if (side < 0.0) {
-                        int arrowX = config.subtitleAlignment ? drawX - this.minecraft.font.width("<") - 3 : -halfWidth;
-                        graphics.text(this.minecraft.font, "<", arrowX, -halfHeight, finalTextColor, config.showShadow);
+                        int arrowX = config.subtitleAlignment ? drawX - this.minecraft.font.width("<") - arrowGap : -halfWidth;
+                        graphics.text(this.minecraft.font, "<", arrowX, arrowY, finalTextColor, config.showShadow);
                     }
                 }
             }
